@@ -95,6 +95,35 @@ type Class struct {
 	Ywkcm     string `json:"ywkcm"` // 英文课程名
 }
 
+type ClassInfo struct {
+	// Main Information
+	Title                string // 课程 Title
+	ClassName            string // 课程名称
+	MainProfessor        string // 主讲教师
+	HekaiProfessor       string // 合开教师
+	ClassCredits         string // 课程学分
+	ClassHours           string // 课程学时
+	ClassScope           string // 课程开放范围
+	ClassMaterialsCount  string // 课程文件数
+	ClassHomeworkCount   string // 布置作业书
+	ClassDiscussionCount string // 讨论贴数
+
+	// Other Information
+	ClassDescription               string // 课程简介
+	ClassEnglishDescription        string // 英文课程简介
+	ClassSchedule                  string // 进度安排
+	ClassAssesmentMethod           string // 考核方式
+	ClassReferenceMaterials        string // 教材及参考书
+	ClassMainReference             string // 主教材
+	ClassReferenceBooks            string // 参考书
+	ClassProfessor                 string // 授课教师
+	ClassSelectionGuidance         string // 选课指导
+	ClassPrerequisites             string // 先修要求
+	ClassOpenOfficeHour            string // Open Office Hour
+	ClassGradingStandard           string // 成绩评定标准
+	TeacherTeachingCharacteristics string // 教师教学特色
+}
+
 // TODO: getClassName
 // TODO: getClassNumber
 // TODO: ...
@@ -147,19 +176,87 @@ func (s *ClassService) GetCourseList(semesterID string, courseType string) (*Cla
 }
 
 // GetClassInformation : Parse class information page (which is written in HTML) and return parts
-func (s *ClassService) GetClassInformation(classID string, courseType string) (string, string, string, string, string, string, string, string, string, error) {
+func (s *ClassService) GetClassInformation(classID string, courseType string) (*ClassInfo, error) {
 	// Create Request Body
 	var emptyData url.Values = url.Values{}
-	resp, err := s.client.Request(context.Background(), http.MethodPost, addCSRFTokenToUrl(learnCurrentSemester(), s.client.csrf), strings.NewReader(emptyData.Encode()))
+	resp, err := s.client.Request(context.Background(), http.MethodPost, addCSRFTokenToUrl(learnCourseInformation(classID, courseType), s.client.csrf), strings.NewReader(emptyData.Encode()))
 	if err != nil {
-		return "", "", "", "", "", "", "", "", "", err
+		return nil, err
 	}
 
 	// TODO: Handle Response
-	// stringResponse := DecodeRequestBodyToString(resp)
+	stringResponse := DecodeRequestBodyToString(resp)
 
-	if resp == nil {
+	var classInfo ClassInfo
+	classInfo.Title = strings.ReplaceAll(strings.Split(strings.Split(stringResponse, "<title>")[1], "</title>")[0], "\r ", "")
 
-	}
-	return "", "", "", "", "", "", "", "", "", err
+	// Basic information
+	infoTable := strings.Split(strings.Split(stringResponse, "<div class=\"stu_book\">")[1], "<table>")[1]
+
+	// First row
+	infoTableRow := strings.Split(infoTable, "<tr>")[1]
+	infoTableCol := strings.Split(infoTableRow, "<td>")
+	classInfo.MainProfessor = strings.Split(infoTableCol[2], "</td>")[0]
+	classInfo.HekaiProfessor = strings.Split(infoTableCol[4], "</td>")[0]
+
+	// Second row
+	infoTableRow = strings.Split(infoTable, "<tr>")[2]
+	infoTableCol = strings.Split(infoTableRow, "\">")
+	classInfo.ClassCredits = strings.Split(infoTableCol[2], "</td>")[0]
+	infoTableCol = strings.Split(infoTableRow, "<td>")
+	classInfo.ClassHours = strings.Split(infoTableCol[1], "</td>")[0]
+
+	// Third row
+	infoTableRow = strings.Split(infoTable, "<tr>")[3]
+	infoTableCol = strings.Split(infoTableRow, "<td>")
+	classInfo.ClassScope = strings.Split(infoTableCol[2], "</td>")[0]
+	classInfo.ClassMaterialsCount = strings.Split(infoTableCol[4], "</td>")[0]
+
+	// Fourth Row
+	infoTableRow = strings.Split(infoTable, "<tr>")[4]
+	infoTableCol = strings.Split(infoTableRow, "<td>")
+	classInfo.ClassHomeworkCount = strings.Split(infoTableCol[2], "</td>")[0]
+	classInfo.ClassDiscussionCount = strings.Split(infoTableCol[4], "</td>")[0]
+
+	// Section 2
+	sectionTwoInfo := strings.Split(stringResponse, "<div class=\"section2 clearfix\">")
+
+	classInfo.ClassDescription = strings.Split(sectionTwoInfo[1], "<div class=\"cont\">")[1]
+	classInfo.ClassEnglishDescription = strings.Split(sectionTwoInfo[2], "<div class=\"cont\">")[1]
+	classInfo.ClassSchedule = strings.Split(sectionTwoInfo[3], "<div class=\"cont\">")[1]
+	// Deal with <div class=\"section4 section5 ..."
+	classInfo.ClassAssesmentMethod = strings.Split(sectionTwoInfo[4], "<div class=\"cont\">")[1]
+	classInfo.ClassAssesmentMethod = strings.Split(classInfo.ClassAssesmentMethod, "<div class=\"section4 section5 clearfix\">")[0]
+
+	classInfo.ClassProfessor = strings.Split(sectionTwoInfo[5], "<div class=\"cont\">")[1]
+	classInfo.ClassSelectionGuidance = strings.Split(sectionTwoInfo[6], "<div class=\"cont\">")[1]
+	classInfo.ClassPrerequisites = strings.Split(sectionTwoInfo[7], "<div class=\"cont\">")[1]
+	classInfo.ClassOpenOfficeHour = strings.Split(sectionTwoInfo[8], "<div class=\"cont\">")[1]
+	classInfo.ClassGradingStandard = strings.Split(sectionTwoInfo[9], "<div class=\"cont\">")[1]
+	classInfo.TeacherTeachingCharacteristics = strings.Split(sectionTwoInfo[10], "<div class=\"cont\">")[1]
+	classInfo.TeacherTeachingCharacteristics = strings.Split(classInfo.TeacherTeachingCharacteristics, "</div>")[0]
+
+	// Deal with <div class=\"section4 section5 ..."
+	sectionTwoInfo = strings.Split(stringResponse, "<div class=\"section4 section5 clearfix\">")
+	// fmt.Println(sectionTwoInfo)
+	classInfo.ClassReferenceMaterials = strings.Split(sectionTwoInfo[1], "<p>")[1]
+	classInfo.ClassReferenceBooks = strings.Split(sectionTwoInfo[2], "<p>")[1]
+
+	// TODO Remove All Tag Information
+	classInfo.ClassDescription = stripHtml(classInfo.ClassDescription)
+	classInfo.ClassEnglishDescription = stripHtml(classInfo.ClassEnglishDescription)
+	classInfo.ClassSchedule = stripHtml(classInfo.ClassSchedule)
+	classInfo.ClassAssesmentMethod = stripHtml(classInfo.ClassAssesmentMethod)
+
+	classInfo.ClassReferenceMaterials = stripHtml(classInfo.ClassReferenceMaterials)
+	classInfo.ClassReferenceBooks = stripHtml(classInfo.ClassReferenceBooks)
+	classInfo.ClassProfessor = stripHtml(classInfo.ClassProfessor)
+
+	classInfo.ClassSelectionGuidance = stripHtml(classInfo.ClassSelectionGuidance)
+	classInfo.ClassPrerequisites = stripHtml(classInfo.ClassPrerequisites)
+	classInfo.ClassOpenOfficeHour = stripHtml(classInfo.ClassOpenOfficeHour)
+	classInfo.ClassGradingStandard = stripHtml(classInfo.ClassGradingStandard)
+	classInfo.TeacherTeachingCharacteristics = stripHtml(classInfo.TeacherTeachingCharacteristics)
+
+	return &classInfo, nil
 }

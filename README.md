@@ -9,6 +9,9 @@ To use this package, run `go get -u github.com/AkaCoder404/gothulearn`
 
 ## Build From Source
 
-## USa
+## Usage
 
 ## TODO
+
+
+## Change Log
