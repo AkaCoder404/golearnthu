@@ -125,13 +125,23 @@ func learnTeacherCourseURL(courseID string) string {
 	return LearnPrefix + "/f/wlxt/index/course/teacher/course?wlkcid=" + courseID
 }
 
-func learnFileList(courseID string, courseType string) string {
-	if courseType == "student" {
-		return LearnPrefix + "/b/wlxt/kj/wlkc_kjxxb/student/kjxxbByWlkcidAndSizeForStudent?wlkcid=" + courseID + "&size=" + fmt.Sprint(MAX_SIZE)
-	} else {
-		return LearnPrefix + "/b/wlxt/kj/v_kjxxb_wjwjb/teacher/queryByWlkcid?wlkcid=" + courseID + "&size=" + fmt.Sprint(MAX_SIZE)
-	}
+// 课程文件 Tabs
+func learnFilePageList(courseID string, courseType string) string {
+	return LearnPrefix + "/b/wlxt/kj/wlkc_kjflb/" + courseType + "/pageList?wlkcid=" + courseID
 }
+
+// 课程文件 List
+func learnFileList(courseID string, filePageID string, courseType string) string {
+	return LearnPrefix + "/b/wlxt/kj/wlkc_kjxxb/" + courseType + "/kjxxb/" + courseID + "/" + filePageID
+}
+
+// func learnFileList(courseID string, courseType string) string {
+// 	if courseType == "student" {
+// 		return LearnPrefix + "/b/wlxt/kj/wlkc_kjxxb/student/kjxxbByWlkcidAndSizeForStudent?wlkcid=" + courseID + "&size=" + fmt.Sprint(MAX_SIZE)
+// 	} else {
+// 		return LearnPrefix + "/b/wlxt/kj/v_kjxxb_wjwjb/teacher/queryByWlkcid?wlkcid=" + courseID + "&size=" + fmt.Sprint(MAX_SIZE)
+// 	}
+// }
 
 // 下载文件
 func learnFileDownload(fileID string, courseType string, courseID string) string {

@@ -32,7 +32,7 @@ type LearnClient struct {
 	Auth  *AuthService
 	User  *UserService
 	Class *ClassService
-	// File  *FileService
+	File  *FileService
 }
 
 // service: Wrapper for LearnClient
@@ -66,5 +66,6 @@ func NewLearnClient() *LearnClient {
 	learn.Auth = (*AuthService)(&learn.common)
 	learn.User = (*UserService)(&learn.common)
 	learn.Class = (*ClassService)(&learn.common)
+	learn.File = (*FileService)(&learn.common)
 	return learn
 }
