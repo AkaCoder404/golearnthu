@@ -158,6 +158,9 @@ func learnFilePreview() string {
 }
 
 // 消息列表
+// https://learn.tsinghua.edu.cn/b/wlxt/kcgg/wlkc_ggb/student/pageListXs?_csrf=8262e82e-3eae-4ef4-a64a-7e88ddb8017e
+
+// 消息列表
 func learnNotificationList(courseID string, courseType string) string {
 	if courseType == "student" {
 		return LearnPrefix + "/b/wlxt/kcgg/wlkc_ggb/student/kcggListXs?wlkcid=" + courseID + "&size=" + fmt.Sprint(MAX_SIZE)
@@ -180,28 +183,17 @@ func learnNotificationEdit(courseType string) string {
 	return LearnPrefix + "/b/wlxt/kcgg/wlkc_ggb/" + courseType + "/editKcgg"
 }
 
-//
-
-// Create a new http post request
-func createPostRequest(websiteUrl string) *http.Request {
-	var emptyData url.Values = url.Values{}
-	req, err := http.NewRequest("POST", websiteUrl, strings.NewReader(emptyData.Encode()))
-	if err != nil {
-		panic(err)
-	}
-	return req
+// 未提交作业
+func learnUnsubmittedHomeworkList(courseID string) string {
+	return LearnPrefix + "/b/wlxt/kczy/zy/student/zyListWj"
 }
 
-// Send a post request and get response
-func getPostResponse(client http.Client, req *http.Request) *http.Response {
-	resp, err := client.Do(req)
-	if err != nil {
-		panic(err)
-	}
-	return resp
+// 提交未批阅
+func learnSubmittedNotGradedHWList(courseID string) string {
+	return LearnPrefix + "/b/wlxt/kczy/zy/student/zyListYjwg"
 }
 
-// Convert response to string
-func responseToString() {
-
+// 已经批阅
+func learnGradedHomeworkList(courseID string) string {
+	return LearnPrefix + "/b/wlxt/kczy/zy/student/zyListYpg"
 }

@@ -124,10 +124,6 @@ type ClassInfo struct {
 	TeacherTeachingCharacteristics string // 教师教学特色
 }
 
-// TODO: getClassName
-// TODO: getClassNumber
-// TODO: ...
-
 // ClassAttributes : Other Information about classes
 type ClassAttributes struct {
 }
@@ -259,4 +255,9 @@ func (s *ClassService) GetClassInformation(classID string, courseType string) (*
 	classInfo.TeacherTeachingCharacteristics = stripHtml(classInfo.TeacherTeachingCharacteristics)
 
 	return &classInfo, nil
+}
+
+// GetClassNotices : 获取课程公告
+func (s *ClassService) GetClassNotices(classID string, courseType string) {
+
 }

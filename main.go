@@ -29,10 +29,11 @@ type LearnClient struct {
 	csrf         string
 
 	// Services for LearnClient API
-	Auth  *AuthService
-	User  *UserService
-	Class *ClassService
-	File  *FileService
+	Auth     *AuthService
+	User     *UserService
+	Class    *ClassService
+	File     *FileService
+	Homework *HomeworkService
 }
 
 // service: Wrapper for LearnClient
@@ -67,5 +68,6 @@ func NewLearnClient() *LearnClient {
 	learn.User = (*UserService)(&learn.common)
 	learn.Class = (*ClassService)(&learn.common)
 	learn.File = (*FileService)(&learn.common)
+	learn.Homework = (*HomeworkService)(&learn.common)
 	return learn
 }
