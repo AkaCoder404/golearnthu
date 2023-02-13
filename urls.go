@@ -201,3 +201,8 @@ func learnSubmittedNotGradedHWList(courseID string) string {
 func learnGradedHomeworkList(courseID string) string {
 	return LearnPrefix + "/b/wlxt/kczy/zy/student/zyListYpg"
 }
+
+// 以批阅作业信息
+func learnGradedHomeworkInfo(courseID string, homeworkID string, xsHomeworkID string) string {
+	return LearnPrefix + "/f/wlxt/kczy/zy/student/viewCj?wlkcid=" + courseID + "&zyid=" + homeworkID + "&xszyid=" + xsHomeworkID
+}

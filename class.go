@@ -180,7 +180,6 @@ func (s *ClassService) GetClassInformation(classID string, courseType string) (*
 		return nil, err
 	}
 
-	// TODO: Handle Response
 	stringResponse := DecodeRequestBodyToString(resp)
 
 	var classInfo ClassInfo

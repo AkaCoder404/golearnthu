@@ -128,3 +128,167 @@ func (h *HomeworkService) GetGradedHomeworks(courseID string) (*HomeworkList, er
 
 	return &response, nil
 }
+
+// UnsubmittedHomeworkInfo : A struct for a unsubmmited homework instance
+type UnsubmittedHomeworkInfo struct {
+	Title            string // 作业标题
+	Description      string // 作业说明
+	Attachment       string // 作业附件
+	AnswerDesc       string // 答案说明
+	AnswerAttachment string // 大答附件
+	PublishObject    string // 发布对象
+	FinishType       string // 完成方式
+	DueDate          string // 截止日期
+}
+
+// SubmittedHomeworkInfo : A struct for a submitted homework, but not graded hw instance
+type SubmittedHomeworkInfo struct {
+	// 作业内容及要求
+	Title            string // 作业标题
+	Description      string // 作业说明
+	Attachment       string // 作业附件
+	AnswerDesc       string // 答案说明
+	AnswerAttachment string // 大答附件
+	PublishObject    string // 发布对象
+	FinishType       string // 完成方式
+	DueDate          string // 截止日期
+
+	// 本人提交的作业
+	Studentid            string // 学号
+	SubmissionDate       string // 提交日期
+	SubmissionContent    string // 上交作业内容
+	SubmissionAttachment string // 上交作业附件
+}
+
+// GradedHomeworkInfo :
+type GradedHomeworkInfo struct {
+	// 作业内容及要求
+	Title                string // 作业标题
+	Description          string // 作业说明
+	Attachment           string // 作业附件
+	AnswerDesc           string // 答案说明
+	AnswerAttachment     string // 大答附件
+	AnswerAttachmentLink string // TODO
+	AnswerAttachmentSize string // TODO
+	PublishObject        string // 发布对象
+	FinishType           string // 完成方式
+	DueDate              string // 截止日期
+
+	// 本人提交的作业
+	Studentid                string // 提交日期
+	SubmissionDate           string // 提交日期
+	SubmissionContent        string // 上交作业内容
+	SubmissionAttachmentName string // 上交作业附件名字
+	SubmissionAttachmentLink string // 上交作业附件连接
+	SubmissionAttachmentSize string // TODO
+
+	// 老师批阅结果
+	ReviewTeacher          string // 批阅老师
+	ReviewTime             string // 批阅时间
+	Grade                  string // 成绩
+	Comments               string // 评语
+	CommentsAttachment     string // 评语附件
+	CommentsAttachmentLink string // TODO
+	CommentsAttachmentSize string // TODO
+}
+
+func (h *HomeworkService) GetGradedHomeworkInfo(courseID string, homeworkID string, xsHomeworkID string) (*GradedHomeworkInfo, error) {
+	var emptyData url.Values = url.Values{}
+	resp, err := h.client.Request(context.Background(), http.MethodPost, learnGradedHomeworkInfo(courseID, homeworkID, xsHomeworkID), strings.NewReader(emptyData.Encode()))
+	if err != nil {
+		return nil, err
+	}
+
+	stringResponse := DecodeRequestBodyToString(resp)
+	// print(stringResponse)
+	var homeworkInfo GradedHomeworkInfo
+
+	// Homework Title
+	homeworkInfo.Title = strings.Split(stringResponse, "<div class=\"left\">作业标题</div>")[1]
+	homeworkInfo.Title = strings.Split(homeworkInfo.Title, "</p>")[0]
+	homeworkInfo.Title = stripHtml(homeworkInfo.Title)
+
+	// Homework Description
+	homeworkInfo.Description = strings.Split(stringResponse, ">作业说明</div>")[1]
+	homeworkInfo.Description = strings.Split(homeworkInfo.Description, "</div>")[0]
+	homeworkInfo.Description = stripHtml(homeworkInfo.Description)
+
+	// Homework Attachment
+	homeworkInfo.Attachment = strings.Split(stringResponse, ">作业附件</div>")[1]
+	homeworkInfo.Attachment = strings.Split(homeworkInfo.Attachment, "</div>")[0]
+	homeworkInfo.Attachment = stripHtml(homeworkInfo.Attachment)
+
+	// Homework Answer Description
+	homeworkInfo.AnswerDesc = strings.Split(stringResponse, ">答案说明</div>")[1]
+	homeworkInfo.AnswerDesc = strings.Split(homeworkInfo.AnswerDesc, "</div>")[0]
+	homeworkInfo.AnswerDesc = stripHtml(homeworkInfo.AnswerDesc)
+
+	// Homework Answer Attachment
+	homeworkInfo.AnswerAttachment = strings.Split(stringResponse, ">答案附件</div>")[1]
+	homeworkInfo.AnswerAttachment = strings.Split(homeworkInfo.AnswerAttachment, "</div>")[0]
+	homeworkInfo.AnswerAttachment = stripHtml(homeworkInfo.AnswerAttachment)
+
+	// Homework Publish Object
+	homeworkInfo.PublishObject = strings.Split(stringResponse, "<div class=\"left\">发布对象</div>")[1]
+	homeworkInfo.PublishObject = strings.Split(homeworkInfo.PublishObject, "</p>")[0]
+	homeworkInfo.PublishObject = stripHtml(homeworkInfo.PublishObject)
+
+	// Homework Finish Method
+	homeworkInfo.FinishType = strings.Split(stringResponse, "<div class=\"left\">完成方式</div>")[1]
+	homeworkInfo.FinishType = strings.Split(homeworkInfo.FinishType, "</p>")[0]
+	homeworkInfo.FinishType = stripHtml(homeworkInfo.FinishType)
+
+	// Homework Finish Time
+	homeworkInfo.DueDate = strings.Split(stringResponse, "<div class=\"left\">截止日期(GMT+8)</div>")[1]
+	homeworkInfo.DueDate = strings.Split(homeworkInfo.DueDate, "</p>")[0]
+	homeworkInfo.DueDate = stripHtml(homeworkInfo.DueDate)
+
+	// Homework student id
+	homeworkInfo.Studentid = strings.Split(stringResponse, "<div class=\"left\">学号</div>")[1]
+	homeworkInfo.Studentid = strings.Split(homeworkInfo.Studentid, "</p>")[0]
+	homeworkInfo.Studentid = stripHtml(homeworkInfo.Studentid)
+
+	// Homework submission date
+	homeworkInfo.SubmissionDate = strings.Split(stringResponse, "<div class=\"left\">提交日期</div>")[1]
+	homeworkInfo.SubmissionDate = strings.Split(homeworkInfo.SubmissionDate, "</p>")[0]
+	homeworkInfo.SubmissionDate = stripHtml(homeworkInfo.SubmissionDate)
+
+	// Homework submission content
+	homeworkInfo.SubmissionContent = strings.Split(stringResponse, ">上交作业内容</div>")[1]
+	homeworkInfo.SubmissionContent = strings.Split(homeworkInfo.SubmissionContent, "</div>")[0]
+	homeworkInfo.SubmissionContent = stripHtml(homeworkInfo.SubmissionContent)
+
+	// Homework submission attachment name and link
+	homeworkInfo.SubmissionAttachmentName = strings.Split(stringResponse, ">上交作业附件</div>")[1]
+	homeworkInfo.SubmissionAttachmentName = strings.Split(homeworkInfo.SubmissionAttachmentName, "</a>")[0]
+	homeworkInfo.SubmissionAttachmentLink = strings.Split(homeworkInfo.SubmissionAttachmentName, "<a href=\"")[1]
+	homeworkInfo.SubmissionAttachmentLink = strings.Split(homeworkInfo.SubmissionAttachmentLink, "\" target=\"_blank\"")[0]
+	homeworkInfo.SubmissionAttachmentName = stripHtml(homeworkInfo.SubmissionAttachmentName)
+
+	// Homework review teacher
+	homeworkInfo.ReviewTeacher = strings.Split(stringResponse, "<div class=\"left\">批阅老师</div>")[1]
+	homeworkInfo.ReviewTeacher = strings.Split(homeworkInfo.ReviewTeacher, "</p>")[0]
+	homeworkInfo.ReviewTeacher = stripHtml(homeworkInfo.ReviewTeacher)
+
+	// Homework review time
+	homeworkInfo.ReviewTime = strings.Split(stringResponse, "<div class=\"left\">批阅时间</div>")[1]
+	homeworkInfo.ReviewTime = strings.Split(homeworkInfo.ReviewTime, "</p>")[0]
+	homeworkInfo.ReviewTime = stripHtml(homeworkInfo.ReviewTime)
+
+	// Homework grade
+	homeworkInfo.Grade = strings.Split(stringResponse, "<div class=\"left\">成绩</div>")[1]
+	homeworkInfo.Grade = strings.Split(homeworkInfo.Grade, "</p>")[0]
+	homeworkInfo.Grade = stripHtml(homeworkInfo.Grade)
+
+	// Homework comments
+	homeworkInfo.Comments = strings.Split(stringResponse, ">评语</div>")[1]
+	homeworkInfo.Comments = strings.Split(homeworkInfo.Comments, "</span>")[0]
+	homeworkInfo.Comments = stripHtml(homeworkInfo.Comments)
+
+	// Homework comments attachment
+	homeworkInfo.CommentsAttachment = strings.Split(stringResponse, ">评语附件</div>")[1]
+	homeworkInfo.CommentsAttachment = strings.Split(homeworkInfo.CommentsAttachment, "</div>")[0]
+	homeworkInfo.CommentsAttachment = stripHtml(homeworkInfo.CommentsAttachment)
+
+	return &homeworkInfo, nil
+}
