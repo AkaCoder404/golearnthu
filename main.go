@@ -34,6 +34,7 @@ type LearnClient struct {
 	Class    *ClassService
 	File     *FileService
 	Homework *HomeworkService
+	Notice   *NoticeService
 }
 
 // service: Wrapper for LearnClient
@@ -69,5 +70,6 @@ func NewLearnClient() *LearnClient {
 	learn.Class = (*ClassService)(&learn.common)
 	learn.File = (*FileService)(&learn.common)
 	learn.Homework = (*HomeworkService)(&learn.common)
+	learn.Notice = (*NoticeService)(&learn.common)
 	return learn
 }

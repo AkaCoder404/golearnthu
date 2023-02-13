@@ -161,13 +161,17 @@ func learnFilePreview() string {
 // https://learn.tsinghua.edu.cn/b/wlxt/kcgg/wlkc_ggb/student/pageListXs?_csrf=8262e82e-3eae-4ef4-a64a-7e88ddb8017e
 
 // 消息列表
-func learnNotificationList(courseID string, courseType string) string {
-	if courseType == "student" {
-		return LearnPrefix + "/b/wlxt/kcgg/wlkc_ggb/student/kcggListXs?wlkcid=" + courseID + "&size=" + fmt.Sprint(MAX_SIZE)
-	} else {
-		return LearnPrefix + "/b/wlxt/kcgg/wlkc_ggb/teacher/kcggList?wlkcid=" + courseID + "&size=" + fmt.Sprint(MAX_SIZE)
-	}
+func learnNotificationList(courseID string) string {
+	return LearnPrefix + "/b/wlxt/kcgg/wlkc_ggb/student/pageListXs"
 }
+
+// func learnNotificationList(courseID string, courseType string) string {
+// 	if courseType == "student" {
+// 		return LearnPrefix + "/b/wlxt/kcgg/wlkc_ggb/student/kcggListXs?wlkcid=" + courseID + "&size=" + fmt.Sprint(MAX_SIZE)
+// 	} else {
+// 		return LearnPrefix + "/b/wlxt/kcgg/wlkc_ggb/teacher/kcggList?wlkcid=" + courseID + "&size=" + fmt.Sprint(MAX_SIZE)
+// 	}
+// }
 
 // TODO: 消息内容
 func learnNotificationDetail(courseID string, notificationID string, courseType string) string {

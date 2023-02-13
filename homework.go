@@ -24,7 +24,7 @@ type HomeworkObject struct {
 	IDisplayStart        string     `json:"iDisplayStart"`
 	IDisplayLength       string     `json:"iDisplayLength"`
 	SEcho                string     `json:"sEcho"`
-	SSearch              string     `json:"SSearch"`
+	SSearch              string     `json:"sSearch"`
 	AaData               []Homework `json:"aaData"`
 }
 
