@@ -14,8 +14,54 @@ To use this package, run `go get -u github.com/AkaCoder404/gothulearn`
 ## Build From Source
 
 ## Usage
+Here is an example usage case for logging in and getting the courses of this semester.
+```go
+package main
+
+import (
+	"fmt"
+	"os"
+
+	"github.com/AkaCoder404/gothulearn"
+)
+
+func main() {
+	// 创造新的 API Client
+	c := gothulearn.NewLearnClient()
+
+	// 登录账号
+	err := c.Auth.Login("username", "password")
+	if err != nil {
+		fmt.Println("Login failed")
+	}
+	fmt.Println("登入成功")
+
+	// 登录，获取用户基本信息
+	name, studentTypes, department, nil := c.User.GetUserInformation()
+	if err != nil {
+		fmt.Println("User information retrieval failed")
+	}
+	fmt.Printf("名字: %s\n用户类型: %s\n用户号: %s\n", name, studentTypes, department)
+
+	// 获取本学期
+	currentSemesterID, err := c.Class.GetCurrentAndNextSemester()
+	currentSemesterID = "2022-2023-1"
+	if err != nil {
+		fmt.Println("Failed to get current semester")
+	}
+	fmt.Printf("本学期 %s", currentSemesterID)
+
+	// 获取本学期课程
+	list, err := c.Class.GetCourseList(currentSemesterID, "student")
+	if err != nil {
+		fmt.Println("Failed to get current semester class list")
+	}
+	for index := 0; index < len(list.ResultList); index++ {
+		class := list.ResultList[index]
+		fmt.Printf("%s %s\n", class.Kcm, class.Ywkcm)
+	}
+```
 
 ## TODO
-
 
 ## Change Log
