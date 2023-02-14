@@ -150,7 +150,7 @@ func (f *FileService) DownloadFileFromHomework(fileName string, courseID string,
 		return -1, err
 	}
 
-	// Put content on file
+	// Put content on file and close
 	size, err := io.Copy(file, resp.Body)
 	defer file.Close()
 	return size, nil
@@ -173,7 +173,7 @@ func (f *FileService) DownloadFileFromFilePage(fileName string, FileID string) (
 		return -1, err
 	}
 
-	// Put content on file
+	// Put content on file and close
 	size, err := io.Copy(file, resp.Body)
 	defer file.Close()
 	return size, nil
