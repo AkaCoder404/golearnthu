@@ -62,6 +62,25 @@ func main() {
 	}
 ```
 
-## TODO
 
 ## Change Log
+### Completed
+- V1.0.0
+  - Initial Commit
+  - Login
+
+### Working On
+- V1.0.1
+  - Get current semester 
+  - Get list of classes based on semester
+  - Get list of all classes
+  - Get class information
+  - Get unsubmitted/submitted/graded list of a class
+  - Get notification list of a class
+  - Get file list of a class
+  - Get graded homework information **incomplete*
+
+### TODO
+- V1.0.2
+  - Get unsubmitted/submmited/graded homework information
+  - Download file 

@@ -111,6 +111,11 @@ func learnCourseURL(courseID string, courseType string) string {
 	return LearnPrefix + "/f/wlxt/index/course/" + courseType + "/course?wlkcid=" + courseID
 }
 
+// 所有课程
+func learnCourseListAll() string {
+	return LearnPrefix + "/b/wlxt/kc/v_wlkc_xs_xktjb_coassb/pageList"
+}
+
 // 课程信息
 func learnCourseInformation(courseID string, courseType string) string {
 	return LearnPrefix + "/f/wlxt/kc/v_kcxx_jskcxx/" + courseType + "/beforeXskcxx?wlkcid=" + courseID + "&sfgk=0"

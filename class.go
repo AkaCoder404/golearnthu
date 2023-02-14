@@ -42,44 +42,44 @@ type Class struct {
 	Tpid      string `json:"tpid"`      //
 	Kch       string `json:"kch"`       // 课程号
 	Kxhnumber string `json:"kxhnumber"` // 课程号
-	Kxh       string `json:"kxh"`
-	Kcm       string `json:"kcm"`  // 课中文名
-	Jsh       string `json:"jsh"`  // 教师号
-	Kssj      string `json:"kssj"` // 开始时间
-	Jssj      string `json:"jssj"` // 结束时间
-	Kcnr      string `json:"kcnr"`
-	Xf        string `json:"xf"`
-	Xs        string `json:"xs"`
-	Cks       string `json:"cks"`
-	Jxfs      string `json:"jxfs"`
-	Kclx      string `json:"kclx"`
-	Ksfs      string `json:"ksfs"`
-	Lls       int    `json:"lls"`
-	Dys       int    `json:"dys"`
-	Zys       int    `json:"zys"`
-	Tjzys     int    `json:"tjzys"` // 提交作业数
-	Zls       int    `json:"zls"`
-	Jslls     int    `json:"jslls"`
-	Xslls     int    `json:"xslls"`
-	Jsdys     int    `json:"jsdys"`
-	Xsdys     int    `json:"xsdys"`
-	Kfyhlx    string `json:"kfyhlx"`
-	Ddys      int    `json:"ddys"`
-	Tlts      int    `json:"ttls"`
-	Ggs       int    `json:"ggs"`
-	Xtls      int    `json:"xtls"`
-	Jxbjs     int    `json:"jxbjs"`
-	Jxkjs     int    `json:"jxkjs"` // 教学课件数
-	Kcfws     int    `json:"kcfws"`
-	Wpgs      int    `json:"wpgs"`
-	Xss       int    `json:"xss"`
-	Xsbds     int    `json:"xsbds"`
-	Xzxss     int    `json:"xzxss"`
-	Tkxss     int    `json:"tkxss"`
-	Bbh       string `json:"bbh"`
-	Czr       string `json:"czr"`
-	Czsj      string `json:"czsj"`
-	Bz        string `json:"bz"`
+	Kxh       string `json:"kxh"`       // 课序号
+	Kcm       string `json:"kcm"`       // 课中文名
+	Jsh       string `json:"jsh"`       // 教师号
+	Kssj      string `json:"kssj"`      // 开始时间
+	Jssj      string `json:"jssj"`      // 结束时间
+	Kcnr      string `json:"kcnr"`      // 课程内容
+	Xf        string `json:"xf"`        // 学分
+	Xs        string `json:"xs"`        // 学时
+	Cks       string `json:"cks"`       //
+	Jxfs      string `json:"jxfs"`      // 教学方式
+	Kclx      string `json:"kclx"`      // 课程类型
+	Ksfs      string `json:"ksfs"`      // 考试方式
+	Lls       int    `json:"lls"`       // 浏览数
+	Dys       int    `json:"dys"`       // 答疑数
+	Zys       int    `json:"zys"`       // 作业数
+	Tjzys     int    `json:"tjzys"`     // 提交作业数
+	Zls       int    `json:"zls"`       // 资料数
+	Jslls     int    `json:"jslls"`     // 教师浏览数
+	Xslls     int    `json:"xslls"`     // 学生浏览数
+	Jsdys     int    `json:"jsdys"`     // 教师答疑数
+	Xsdys     int    `json:"xsdys"`     // 学生答疑数
+	Kfyhlx    string `json:"kfyhlx"`    // 开放用户类型
+	Ddys      int    `json:"ddys"`      // 答疑数
+	Tlts      int    `json:"ttls"`      // 讨论帖数
+	Ggs       int    `json:"ggs"`       // 公告数
+	Xtls      int    `json:"xtls"`      // 学堂历史数？
+	Jxbjs     int    `json:"jxbjs"`     // 教学班级数？
+	Jxkjs     int    `json:"jxkjs"`     // 教学课件数
+	Kcfws     int    `json:"kcfws"`     // 课程范围数
+	Wpgs      int    `json:"wpgs"`      // 问卷数?
+	Xss       int    `json:"xss"`       // 学生数
+	Xsbds     int    `json:"xsbds"`     // 学生报到数
+	Xzxss     int    `json:"xzxss"`     // 学生在线数
+	Tkxss     int    `json:"tkxss"`     // 退课学生数
+	Bbh       string `json:"bbh"`       // 版本号
+	Czr       string `json:"czr"`       // 创造人
+	Czsj      string `json:"czsj"`      // 创造时间
+	Bz        string `json:"bz"`        // 备注
 	Studentid string `json:"studentid"` // 学生号
 	Jsm       string `json:"jsm"`       // 教师名
 	Zyzs      int    `json:"zyzs"`      // 作业总数
@@ -88,11 +88,11 @@ type Class struct {
 	Ggzs      int    `json:"ggzs"`      // 公告总数
 	Xkjs      int    `json:"xkjs"`      // 未读课件数
 	Xskjs     int    `json:"xskjs"`     // 课件总数
-	Fqtls     int    `json:"fqtls"`
-	Cytls     int    `json:"cytls"`
-	Xsdyzs    int    `json:"xsdyzs"`
-	Yhddys    int    `json:"yhddys"`
-	Ywkcm     string `json:"ywkcm"` // 英文课程名
+	Fqtls     int    `json:"fqtls"`     // 未读讨论帖数
+	Cytls     int    `json:"cytls"`     // 已读讨论帖数
+	Xsdyzs    int    `json:"xsdyzs"`    // 学生答疑总数
+	Yhddys    int    `json:"yhddys"`    // 已回答答疑数
+	Ywkcm     string `json:"ywkcm"`     // 英文课程名
 }
 
 type ClassInfo struct {
@@ -256,7 +256,73 @@ func (s *ClassService) GetClassInformation(classID string, courseType string) (*
 	return &classInfo, nil
 }
 
-// GetClassNotices : 获取课程公告
-func (s *ClassService) GetClassNotices(classID string, courseType string) {
+// ClassListAll : struct just for getting all classes (different from ClassList)
+type ClassListAll struct {
+	Result string      `json:"success"`
+	Msg    string      `json:"msg"`
+	Object ClassObject `json:"object"`
+}
 
+type ClassObject struct {
+	ITotalRecords        string     `json:"iTotalRecords"`
+	ITotalDisplayRecords string     `json:"iTotalDisplayRecords"`
+	IDisplayStart        string     `json:"iDisplayStart"`
+	IDisplayLength       string     `json:"iDisplayLength"`
+	SEcho                string     `json:"sEcho"`
+	SSearch              string     `json:"sSearch"`
+	AaData               []ClassAll `json:"aaData"`
+}
+
+type ClassAll struct {
+	Xnxq      string `json:"xnxq"`      // 学年学期
+	Wlkcid    string `json:"wlkcid"`    // 课程ID
+	Kch       string `json:"kch"`       // 课程号
+	Kxh       string `json:"kxh"`       // 课序号
+	Kcm       string `json:"kcm"`       // 课程名
+	Jsh       string `json:"jsh"`       // 教授号
+	StudentId string `json:"studentid"` // 学生号
+	Jsm       string `json:"jsm"`       // 教授名
+	Kcflm     string `json:"kcflm"`     // 课程分类名
+	Ggs       int    `json:"ggs"`       // 公告数
+	Jxbjs     int    `json:"jxbjs"`     //
+	Jxkjs     int    `json:"jxkjs"`     //
+	Zys       int    `json:"zys"`       // 作业数
+	Kcdys     int    `json:"kcdys"`     // 课程答疑数
+	Tlts      int    `json:"tlts"`      // 讨论帖数
+	Lls       int    `json:"lls"`       // 浏览数
+	Zyzs      int    `json:"zyzs"`      // 作业总数
+	Fqtls     int    `json:"fqtls"`     // 发起讨论数
+	Cytls     int    `json:"cytls"`     // 参与讨论数
+	Xsdys     int    `json:"xsdys"`     // 学生答疑数
+	Yxcs      int    `json:"yxcs"`      //
+	Bjgcs     int    `json:"bjgcs"`     //
+	Kjlls     int    `json:"Kjlls"`     //
+	Gglls     int    `json:"gglls"`     // 公告浏览数
+	Tls       int    `json:"tls"`       // 讨论数
+	Jslx      string `json:"jslx"`      // 教授类型
+	Ywkcm     string `json:"ywkcm"`     // 英文课程名
+	Id        string `json:"id"`        // id
+}
+
+// GetAllClasses : Get a list of all classes
+func (c *ClassService) GetAllClasses() (*ClassListAll, error) {
+	// Create request
+	var payload url.Values = url.Values{}
+	payload.Add("aoData", "[{\"name\":\"sEcho\",\"value\":4},{\"name\":\"iColumns\",\"value\":5},{\"name\":\"sColumns\",\"value\":\",,,,\"},{\"name\":\"iDisplayStart\",\"value\":0},{\"name\":\"iDisplayLength\",\"value\":-1},{\"name\":\"mDataProp_0\",\"value\":\"function\"},{\"name\":\"bSortable_0\",\"value\":false},{\"name\":\"mDataProp_1\",\"value\":\"kcm\"},{\"name\":\"bSortable_1\",\"value\":true},{\"name\":\"mDataProp_2\",\"value\":\"jslx\"},{\"name\":\"bSortable_2\",\"value\":true},{\"name\":\"mDataProp_3\",\"value\":\"xnxq\"},{\"name\":\"bSortable_3\",\"value\":true},{\"name\":\"mDataProp_4\",\"value\":\"jsmc\"},{\"name\":\"bSortable_4\",\"value\":true},{\"name\":\"iSortingCols\",\"value\":0}]")
+	resp, err := c.client.Request(context.Background(), http.MethodPost, addCSRFTokenToUrl(learnCourseListAll(), c.client.csrf), strings.NewReader(payload.Encode()))
+	if err != nil {
+		return nil, err
+	}
+
+	// Handle Response
+	bytesResponse, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ClassListAll
+	json.Unmarshal(bytesResponse, &response)
+
+	log.Printf("There are a total of %d courses", len(response.Object.AaData))
+	return &response, nil
 }
