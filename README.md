@@ -62,7 +62,6 @@ func main() {
 	}
 ```
 
-
 ## Change Log
 ### Completed
 - V1.0.0
@@ -78,12 +77,12 @@ func main() {
   - Get notification list of a class
   - Get file list of a class
   - Get graded homework information **incomplete*
-
-### Working On
+  
 - V1.0.2
   - Get unsubmitted/submmited/graded homework information
-  - Download file 
+  - Download file
+  - 
+- V1.0.3 Licensing
 
 
-### Todo
-- V1.0.3
+## Projects using this library
