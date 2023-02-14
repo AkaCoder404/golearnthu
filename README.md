@@ -81,7 +81,7 @@ func main() {
 - V1.0.2
   - Get unsubmitted/submmited/graded homework information
   - Download file
-  - 
+  
 - V1.0.3 Licensing
 
 
