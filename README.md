@@ -68,8 +68,7 @@ func main() {
 - V1.0.0
   - Initial Commit
   - Login
-
-### Working On
+  
 - V1.0.1
   - Get current semester 
   - Get list of classes based on semester
@@ -80,7 +79,11 @@ func main() {
   - Get file list of a class
   - Get graded homework information **incomplete*
 
-### TODO
+### Working On
 - V1.0.2
   - Get unsubmitted/submmited/graded homework information
   - Download file 
+
+
+### Todo
+- V1.0.3

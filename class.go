@@ -124,10 +124,6 @@ type ClassInfo struct {
 	TeacherTeachingCharacteristics string // 教师教学特色
 }
 
-// ClassAttributes : Other Information about classes
-type ClassAttributes struct {
-}
-
 func (s *ClassService) GetCurrentAndNextSemester() (string, error) {
 	// Create Request Body
 	var emptyData url.Values = url.Values{}

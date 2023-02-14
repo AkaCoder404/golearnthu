@@ -148,14 +148,23 @@ func learnFileList(courseID string, filePageID string, courseType string) string
 // 	}
 // }
 
-// 下载文件
-func learnFileDownload(fileID string, courseType string, courseID string) string {
-	if courseType == "student" {
-		return LearnPrefix + "/b/wlxt/kj/wlkc_kjxxb/student/downloadFile?sfgk=0&wjid=" + fileID
-	} else {
-		return LearnPrefix + "/f/wlxt/kj/wlkc_kjxxb/teacher/beforeView?id=" + fileID + "&wlkcid=" + courseID
-	}
+// 从作业里面下载文件
+func learnDownloadHWFile(courseID string, fileID string) string {
+	return LearnPrefix + "/b/wlxt/kj/wlkc_kjxxb/student/downloadFile/" + courseID + "/" + fileID
 }
+
+// 从文件列表里面下载文件
+func learnDownloadFileFromPage(fileID string) string {
+	return LearnPrefix + "/b/wlxt/kj/wlkc_kjxxb/student/downloadFile?sfgk=0&wjid=" + fileID
+}
+
+// func learnFileDownload(fileID string, courseType string, courseID string) string {
+// 	if courseType == "student" {
+// 		return LearnPrefix + "/b/wlxt/kj/wlkc_kjxxb/student/downloadFile?sfgk=0&wjid=" + fileID
+// 	} else {
+// 		return LearnPrefix + "/f/wlxt/kj/wlkc_kjxxb/teacher/beforeView?id=" + fileID + "&wlkcid=" + courseID
+// 	}
+// }
 
 // TODO: 预览文件
 func learnFilePreview() string {
@@ -207,7 +216,19 @@ func learnGradedHomeworkList(courseID string) string {
 	return LearnPrefix + "/b/wlxt/kczy/zy/student/zyListYpg"
 }
 
+// 未提交作业信息
+func learnUnsubmittedHomeworkInfo(courseID string, homeworkID string, xsHomeworkID string) string {
+	return LearnPrefix + "/f/wlxt/kczy/zy/student/viewZy?wlkcid=" + courseID + "&zyid=" + homeworkID + "&xszyid=" + xsHomeworkID + "&sfgq=1"
+}
+
+// 提交未批阅作业信息
+func learnSubmittedNotGradedHWInfo(courseID string, homeworkID string, xsHomeworkID string) string {
+	return LearnPrefix + "/f/wlxt/kczy/zy/student/viewTj?wlkcid=" + courseID + "&zyid=" + homeworkID + "&xszyid=" + xsHomeworkID + "&sfgq=1"
+}
+
 // 以批阅作业信息
 func learnGradedHomeworkInfo(courseID string, homeworkID string, xsHomeworkID string) string {
 	return LearnPrefix + "/f/wlxt/kczy/zy/student/viewCj?wlkcid=" + courseID + "&zyid=" + homeworkID + "&xszyid=" + xsHomeworkID
 }
+
+//
