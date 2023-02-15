@@ -259,6 +259,7 @@ type ClassListAll struct {
 	Object ClassObject `json:"object"`
 }
 
+// ClassObject  : struct for class object under 所有课程
 type ClassObject struct {
 	ITotalRecords        string     `json:"iTotalRecords"`
 	ITotalDisplayRecords string     `json:"iTotalDisplayRecords"`
@@ -269,6 +270,7 @@ type ClassObject struct {
 	AaData               []ClassAll `json:"aaData"`
 }
 
+// ClassAll : struct for class object under 所有课程
 type ClassAll struct {
 	Xnxq      string `json:"xnxq"`      // 学年学期
 	Wlkcid    string `json:"wlkcid"`    // 课程ID
@@ -322,3 +324,5 @@ func (c *ClassService) GetAllClasses() (*ClassListAll, error) {
 	log.Printf("There are a total of %d courses", len(response.Object.AaData))
 	return &response, nil
 }
+
+// TODO convert ClassAll struct to Class struct

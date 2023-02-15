@@ -27,7 +27,6 @@ type HomeworkObject struct {
 	SSearch              string     `json:"sSearch"`
 	AaData               []Homework `json:"aaData"`
 }
-
 type Homework struct {
 	Kssj    int    `json:"kssj"`    // 开始时间
 	KssjStr string `json:"kssjStr"` // 开始时间 String
@@ -35,7 +34,7 @@ type Homework struct {
 	JzsjStr string `json:"jzsjStr"` // 截止时间 String
 	Bt      string `json:"bt"`      // 标题
 	Wz      int    `json:"wz"`      // 序号
-	Zywcfs  int    `json:"zywcfs"`
+	Zywcfs  int    `json:"zywcfs"`  // 作业完成方式
 	Zytjfs  int    `json:"zytjfs"`
 	Jffs    int    `json:"jffs"`
 	Mxdxmc  string `json:"mxdxmc"`
@@ -230,6 +229,7 @@ type SubmittedHomeworkInfo struct {
 	SubmissionAttachmentSize string // 上交作业附件大小
 }
 
+// GetSubmittedHomeworkInfo : Get a submitted homework information
 func (h *HomeworkService) GetSubmittedHomeworkInfo(courseID string, homeworkID string, xsHomeworkID string) (*SubmittedHomeworkInfo, error) {
 	// Create request
 	var emptyData url.Values = url.Values{}

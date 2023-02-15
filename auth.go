@@ -57,3 +57,11 @@ func (s *AuthService) Login(username string, password string) error {
 	log.Println("CSRF_TOKEN", s.client.csrf)
 	return nil
 }
+
+// Logout : Logout of Learn
+func (s *AuthService) Logout() error {
+	// Create request
+
+	// handle response
+	return nil
+}

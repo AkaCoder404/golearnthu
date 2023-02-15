@@ -70,7 +70,6 @@ func idLoginFormData(username string, password string) url.Values {
 	form.Add("i_user", username)
 	form.Add("i_pass", password)
 	form.Add("atOnce", "true")
-	log.Println(form)
 	return form
 }
 
